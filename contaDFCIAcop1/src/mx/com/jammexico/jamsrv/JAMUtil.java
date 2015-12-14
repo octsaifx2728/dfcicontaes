@@ -659,11 +659,11 @@ public abstract class JAMUtil
   
   public static Object JAMAddCombos(String item)
   {
-    new Object()
+    return new Object()
     {
       public String toString()
       {
-        return JAMUtil.this;
+        return item;
       }
     };
   }
@@ -947,11 +947,11 @@ public abstract class JAMUtil
   
   public static Time SparseToTime(String hora)
   {
-    int h = Integer.parseInt(hora.charAt(0) + hora.charAt(1));
-    int m = Integer.parseInt(hora.charAt(3) + hora.charAt(4));
+    int h = Integer.parseInt(""+hora.charAt(0) + hora.charAt(1));
+    int m = Integer.parseInt(""+hora.charAt(3) + hora.charAt(4));
     int s = 0;
     if (hora.length() > 5) {
-      s = Integer.parseInt(hora.charAt(6) + hora.charAt(7));
+      s = Integer.parseInt(""+hora.charAt(6) + hora.charAt(7));
     }
     return new Time(h, m, s);
   }
@@ -1524,10 +1524,11 @@ public abstract class JAMUtil
   
   public static double round(double val, int places)
   {
+    long factor = 0;
     if (places == 0) {
       return Math.rint(val);
     }
-    long factor = Math.pow(10.0D, places);
+    factor = (long) Math.pow(10.0D, places);
     val *= factor;
     
     long tmp = Math.round(val);
@@ -1543,7 +1544,7 @@ public abstract class JAMUtil
   public static boolean logicArcValid(boolean[] argValues, boolean argRefe)
   {
     for (int i = 0; i < argValues.length; i++) {
-      if ((argValues[i] == 0) == argRefe) {
+      if ((argValues[i] == false) == argRefe) {
         return false;
       }
     }
@@ -1555,7 +1556,7 @@ public abstract class JAMUtil
     int intFalse = 0;
     int intTrue = 0;
     for (int i = 0; i < argValues.length; i++) {
-      if (argValues[i] != 0) {
+      if (argValues[i] != false) {
         intTrue++;
       } else {
         intFalse++;
@@ -1572,21 +1573,21 @@ public abstract class JAMUtil
   {
     int size = 1024;
     int len;
-    byte[] buf;
+    byte[] buf = null;
     if ((is instanceof ByteArrayInputStream))
     {
       size = is.available();
-      byte[] buf = new byte[size];
+      buf = new byte[size];
       len = is.read(buf, 0, size);
     }
     else
     {
       ByteArrayOutputStream bos = new ByteArrayOutputStream();
       buf = new byte[size];
-      int len;
+      
       while ((len = is.read(buf, 0, size)) != -1)
       {
-        int len;
+       
         bos.write(buf, 0, len);
       }
       buf = bos.toByteArray();
@@ -1719,8 +1720,8 @@ public abstract class JAMUtil
       DataInputStream x = new DataInputStream(new BufferedInputStream(new FileInputStream(bin1)));
       DataInputStream y = new DataInputStream(new BufferedInputStream(new FileInputStream(bin2)));
       
-      byte[] buffer1 = new byte['��'];
-      byte[] buffer2 = new byte['��'];
+      byte[] buffer1 = new byte[1024];
+      byte[] buffer2 = new byte[1024];
       while ((x.read(buffer1, 0, 1024) != -1) && (y.read(buffer2, 0, 1024) != -1)) {
         if (!Arrays.equals(buffer1, buffer2))
         {

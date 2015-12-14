@@ -237,6 +237,8 @@ public class JAM010RunTime
       this.rstMenu = rstTmp[0];
       this.rstTrace = rstTmp[1];
       
+      
+      
       doJam070Visor(JAM070VisorMensajes.LINEA07);
       if (this.rstMenu.getRowcount() == 0L)
       {

@@ -37,16 +37,17 @@ public class JAMSendDbWSServiceLocator
   public JAMSendDbWS getJAMSendDbWS()
     throws ServiceException
   {
+    URL endpoint = null;
     try
     {
-      endpoint = new URL(getJAMSendDbWSAddress());
+        endpoint = new URL(getJAMSendDbWSAddress());
     }
     catch (MalformedURLException e)
     {
-      URL endpoint;
+        
       throw new ServiceException(e);
     }
-    URL endpoint;
+    
     return getJAMSendDbWS(endpoint);
   }
   

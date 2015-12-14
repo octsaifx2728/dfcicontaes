@@ -409,14 +409,14 @@ public class JAMRowSet
     try
     {
       PreparedStatement pstmt;
-      PreparedStatement pstmt;
+      
       if (this.prvCon.getMetaData().getDatabaseProductName().toLowerCase().contains("oracle"))
       {
         pstmt = this.prvCon.prepareStatement("Select Id_Value From lastId");
       }
       else if (this.prvCon.getMetaData().getDatabaseProductName().toLowerCase().contains("firebird"))
       {
-        PreparedStatement pstmt = this.prvCon.prepareStatement("Select SOCUTIL02_ULTID From SOCUTIL02_TBL_ULTIDS WHERE SOCUTIL02_USUARIO='" + this.cUsuario + "'");
+        pstmt = this.prvCon.prepareStatement("Select SOCUTIL02_ULTID From SOCUTIL02_TBL_ULTIDS WHERE SOCUTIL02_USUARIO='" + this.cUsuario + "'");
         System.out.println("SABER EL USUARIO: " + this.cUsuario);
       }
       else
@@ -561,6 +561,7 @@ public class JAMRowSet
     this.insertCmd = ("INSERT INTO " + buildTableName(dbmd, catalog, schema, table));
     
     this.insertCmd += "(";
+    int i = 0; 
     for (i = 1; i <= this.columnCount; i++)
     {
       this.insertCmd += this.metaData.getColumnName(i);
@@ -1040,11 +1041,11 @@ public class JAMRowSet
       }
       for (int i = 1; i <= numCols; i++)
       {
-        Object obj;
-        Object obj;
+        
+        Object obj = null ;
         if (map == null)
         {
-          Object obj;
+          
           if (data.getMetaData().getColumnClassName(i).compareToIgnoreCase("java.sql.Timestamp") == 0) {
             obj = data.getTimestamp(i);
           } else {
@@ -1202,7 +1203,7 @@ public class JAMRowSet
     }
     catch (SQLException e)
     {
-      e.printStackTrace();
+      
       throw new SyncProviderException(e.getMessage());
     }
     catch (SecurityException e)
@@ -1211,6 +1212,7 @@ public class JAMRowSet
     }
   }
   
+  @Override
   public void acceptChanges(Connection con)
     throws SyncProviderException
   {
@@ -1223,12 +1225,10 @@ public class JAMRowSet
     {
       throw spe;
     }
-    catch (SQLException sqle)
-    {
-      throw new SyncProviderException(sqle.getMessage());
-    }
+   
   }
   
+  @Override
   public void restoreOriginal()
     throws SQLException
   {
@@ -1314,16 +1314,17 @@ public class JAMRowSet
   public RowSet createShared()
     throws SQLException
   {
+      RowSet clone  = null;
     try
     {
-      clone = (RowSet)clone();
+        clone = (RowSet)clone();
     }
     catch (CloneNotSupportedException ex)
     {
-      RowSet clone;
+     
       throw new SQLException(ex.getMessage());
     }
-    RowSet clone;
+    
     return clone;
   }
   
@@ -1346,6 +1347,7 @@ public class JAMRowSet
     {
       throw new SQLException("Clone failed: " + ex.getMessage());
     }
+    ObjectInputStream in = null;
     try
     {
       ObjectOutputStream out;
@@ -1354,7 +1356,7 @@ public class JAMRowSet
     }
     catch (StreamCorruptedException ex)
     {
-      ObjectInputStream in;
+      
       throw new SQLException("Clone failed: " + ex.getMessage());
     }
     catch (IOException ex)
@@ -1363,7 +1365,7 @@ public class JAMRowSet
     }
     try
     {
-      ObjectInputStream in;
+      
       return (CachedRowSet)in.readObject();
     }
     catch (ClassNotFoundException ex)
@@ -1817,13 +1819,14 @@ public class JAMRowSet
       setLastValueNull(true);
       return null;
     }
+    long sec = 0;
     switch (this.RowSetMD.getColumnType(columnIndex))
     {
     case 91: 
-      long sec = ((java.sql.Date)value).getTime();
+      sec = ((java.sql.Date)value).getTime();
       return new java.sql.Date(sec);
     case 93: 
-      long sec = ((Timestamp)value).getTime();
+      sec = ((Timestamp)value).getTime();
       return new java.sql.Date(sec);
     case -1: 
     case 1: 
@@ -1866,7 +1869,7 @@ public class JAMRowSet
       long sec = ((java.util.Date)value).getTime();
       return new java.util.Date(sec);
     case 93: 
-      long sec = ((Timestamp)value).getTime();
+      sec = ((Timestamp)value).getTime();
       return new java.util.Date(sec);
     case -1: 
     case 1: 
@@ -1959,7 +1962,7 @@ public class JAMRowSet
       long sec = ((Time)value).getTime();
       return new Timestamp(sec);
     case 91: 
-      long sec = ((java.sql.Date)value).getTime();
+      sec = ((java.sql.Date)value).getTime();
       return new Timestamp(sec);
     case -1: 
     case 1: 
@@ -3308,8 +3311,7 @@ public class JAMRowSet
     Row insRow = new Row(this.RowSetMD.getColumnCount(), 
       this.insertRow.getOrigRow());
     insRow.setInserted();
-    int pos;
-    int pos;
+    int pos = 0;
     if ((this.currentRow >= this.numRows) || (this.currentRow < 0)) {
       pos = this.numRows;
     } else {
@@ -4191,7 +4193,6 @@ public class JAMRowSet
       }
       for (int i = 1; i <= numCols; i++)
       {
-        Object obj;
         Object obj;
         if (map == null) {
           obj = data.getObject(i);

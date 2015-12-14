@@ -78,7 +78,7 @@ public class JAMServeletHDigital
     verificaserver obj = new verificaserver("SEC0000002192.fpt", strPath);
     try
     {
-      reto = obj.doverifica();
+        String reto = obj.doverifica();
     }
     catch (IllegalArgumentException e)
     {
