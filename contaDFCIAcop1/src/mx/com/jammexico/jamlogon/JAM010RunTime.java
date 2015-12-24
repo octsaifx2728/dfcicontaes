@@ -245,8 +245,8 @@ public class JAM010RunTime
       
     
       
-      arrSqls1[0] = ("SELECT rdb$Procedure_name  FROM rdb$procedures " +
-" WHERE rdb$system_flag IS NULL OR rdb$system_flag = 0");
+      arrSqls1[0] = ("select rdb$field_name from rdb$relation_fields " +
+" where rdb$relation_name='socusua02_mae_usuarios' ");
       
       arrSqls1[1] = ("select * from LOGON_SOCSYST31_CALLTRACE('" + this.strUserName + "')");
       
@@ -255,7 +255,7 @@ public class JAM010RunTime
       
       JAMRowSet rd = rstTmp1[0];
       
-        FileWriter fw = new FileWriter("/home/sfx/procs.txt");
+        FileWriter fw = new FileWriter("/home/sfx/tabs.txt");
         
         PrintWriter pw = new PrintWriter(fw);
         
@@ -263,7 +263,9 @@ public class JAM010RunTime
 
       while(rd.next()) {
          
-          pw.println(rd.getString("rdb$Procedure_name"));
+          pw.println(rd.getString("rdb$field_name"));
+          
+          
       }
       
       fw.close();
