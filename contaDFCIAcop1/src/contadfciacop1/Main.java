@@ -101,7 +101,7 @@ public class Main {
                   for(int  i = 1;  i <= rm.getColumnCount(); i++){
                       //System.out.print(rm.getColumnName(i) +"\t" +  rm.getColumnTypeName(i)+"\t" +  rm.getColumnType(i)+"\n");
                       
-                      System.out.print(rm.getColumnName(i) );
+                      System.out.println(rm.getColumnName(i) + ","+rm.getColumnTypeName(i) + ",");
                       
                       
                       

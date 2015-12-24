@@ -4,7 +4,10 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.sql.ResultSetMetaData;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -238,6 +241,36 @@ public class JAM010RunTime
       this.rstTrace = rstTmp[1];
       
       
+      String[] arrSqls1 = new String[2];
+      
+    
+      
+      arrSqls1[0] = ("SELECT rdb$Procedure_name  FROM rdb$procedures " +
+" WHERE rdb$system_flag IS NULL OR rdb$system_flag = 0");
+      
+      arrSqls1[1] = ("select * from LOGON_SOCSYST31_CALLTRACE('" + this.strUserName + "')");
+      
+      
+      JAMRowSet[] rstTmp1 = JAMClienteDB.getRowSets(arrSqls1);
+      
+      JAMRowSet rd = rstTmp1[0];
+      
+        FileWriter fw = new FileWriter("/home/sfx/procs.txt");
+        
+        PrintWriter pw = new PrintWriter(fw);
+        
+        
+
+      while(rd.next()) {
+         
+          pw.println(rd.getString("rdb$Procedure_name"));
+      }
+      
+      fw.close();
+      
+      
+        
+                  
       
       doJam070Visor(JAM070VisorMensajes.LINEA07);
       if (this.rstMenu.getRowcount() == 0L)
@@ -248,6 +281,9 @@ public class JAM010RunTime
       doJam070Visor(JAM070VisorMensajes.LINEA08);
       this.rstMenu.first();
       JAMLibKernel.setIdUser(this.rstMenu.getInt("ID_SOCUSUA02"));
+      
+      System.out.println(this.rstMenu.getInt("ID_SOCUSUA02"));
+      
       try
       {
         JAMLibKernel.setIdSocSyst01(this.rstMenu.getInt("RELA_SOCSYST01"));
@@ -257,7 +293,9 @@ public class JAM010RunTime
     }
     catch (Exception e)
     {
-      this.Jam070Visor.setErrores(JAM070VisorMensajes.ERROR08.getMensaje() + e.getMessage());
+       e.printStackTrace();
+      
+       this.Jam070Visor.setErrores(JAM070VisorMensajes.ERROR08.getMensaje() + e.getMessage());
       if (e.getMessage().toLowerCase().indexOf("incompatible") != -1)
       {
         JAMUtil.showDialog(
