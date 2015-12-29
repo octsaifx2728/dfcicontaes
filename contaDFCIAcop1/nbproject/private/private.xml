@@ -3,11 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/sfx/dfcicontaes/contaDFCIAcop1/src/mx/com/jammexico/jamdb/JAMClienteDB.java</file>
-            <file>file:/home/sfx/dfcicontaes/contaDFCIAcop1/src/mx/com/jammexico/jamdb/JAMServeletDB.java</file>
-            <file>file:/home/sfx/dfcicontaes/contaDFCIAcop1/src/contadfciacop1/ContaDFCIAcop1.java</file>
-            <file>file:/home/sfx/dfcicontaes/contaDFCIAcop1/src/mx/com/jammexico/jamlogon/JAM010RunTime.java</file>
-            <file>file:/home/sfx/dfcicontaes/contaDFCIAcop1/src/mx/com/jammexico/jamsrv/JAMRowSet.java</file>
+            <file>file:/home/sfx/contaesdfci/dfcicontaes/contaDFCIAcop1/src/localhost/axis/services/JAMSendDbWS/JAMSendDbWSSoapBindingStub.java</file>
+            <file>file:/home/sfx/contaesdfci/dfcicontaes/contaDFCIAcop1/</file>
+            <file>file:/home/sfx/contaesdfci/dfcicontaes/contaDFCIAcop1/src/contadfciacop1/Main.java</file>
+            <file>file:/home/sfx/contaesdfci/dfcicontaes/contaDFCIAcop1/src/mx/com/jammexico/jamdb/JAMClienteDB.java</file>
+            <file>file:/home/sfx/contaesdfci/dfcicontaes/contaDFCIAcop1/src/mx/com/jammexico/jamlogon/JAM040Menu.java</file>
+            <file>file:/home/sfx/contaesdfci/dfcicontaes/contaDFCIAcop1/src/mx/com/jammexico/jamsrv/JAMRowSet.java</file>
+            <file>file:/home/sfx/contaesdfci/dfcicontaes/contaDFCIAcop1/src/contadfciacop1/ContaDFCIAcop1.java</file>
+            <file>file:/home/sfx/contaesdfci/dfcicontaes/contaDFCIAcop1/src/mx/com/jammexico/jamlogon/JAM010RunTime.java</file>
+            <file>file:/home/sfx/contaesdfci/dfcicontaes/contaDFCIAcop1/src/contadfciacop1/Main2.java</file>
         </group>
     </open-files>
 </project-private>

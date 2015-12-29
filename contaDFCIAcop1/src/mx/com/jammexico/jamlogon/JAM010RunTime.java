@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -246,8 +247,61 @@ public class JAM010RunTime
     
       
     //arrSqls1[0] = ("select rdb$relation_name from rdb$relations");
-      
-      arrSqls1[0] = ("select rdb$field_name from rdb$relation_fields where rdb$relation_name='SOCUSUA02_MAE_USUARIOS'");
+   
+    
+    
+    String s= "select\n" +
+"    i.rdb$index_name,\n" +
+"    s.rdb$field_name,\n" +
+"    i.rdb$relation_name\n" +
+"from\n" +
+"    rdb$indices i\n" +
+"left join rdb$index_segments s on i.rdb$index_name = s.rdb$index_name\n" +
+"left join rdb$relation_constraints rc on rc.rdb$index_name = i.rdb$index_name\n" +
+"where\n" +
+"    rc.rdb$constraint_type = 'PRIMARY KEY' ";
+    
+    /*
+    String s = "SELECT RF.RDB$FIELD_NAME FIELD_NAME,CASE F.RDB$FIELD_TYPE WHEN 7 THEN CASE F.RDB$FIELD_SUB_TYPE WHEN 0 THEN 'SMALLINT' WHEN 1 THEN 'NUMERIC(' || F.RDB$FIELD_PRECISION || ', ' || (-F.RDB$FIELD_SCALE) || ')' WHEN 2 THEN 'DECIMAL' END "+
+            " WHEN 8 THEN " +
+"      CASE F.RDB$FIELD_SUB_TYPE " +
+"        WHEN 0 THEN 'INTEGER' " +
+"        WHEN 1 THEN 'NUMERIC('  || F.RDB$FIELD_PRECISION || ', ' || (-F.RDB$FIELD_SCALE) || ')' " +
+"        WHEN 2 THEN 'DECIMAL' " +
+"      END "+
+        
+        "WHEN 9 THEN 'QUAD'" +
+            "  WHEN 10 THEN 'FLOAT'" +
+"    WHEN 12 THEN 'DATE'" +
+"    WHEN 13 THEN 'TIME'"+
+"  WHEN 14 THEN 'CHAR(' || (F.RDB$FIELD_LENGTH / CH.RDB$BYTES_PER_CHARACTER) || ') ' "+
+        
+        "WHEN 16 THEN\n" +
+"      CASE F.RDB$FIELD_SUB_TYPE\n" +
+"        WHEN 0 THEN 'BIGINT'\n" +
+"        WHEN 1 THEN 'NUMERIC(' || F.RDB$FIELD_PRECISION || ', ' || (-F.RDB$FIELD_SCALE) || ')'\n" +
+"        WHEN 2 THEN 'DECIMAL'\n" +
+"      END "+
+            
+        "WHEN 27 THEN 'DOUBLE'\n" +
+"    WHEN 35 THEN 'TIMESTAMP'\n" +
+"    WHEN 37 THEN 'VARCHAR(' || ((F.RDB$FIELD_LENGTH / CH.RDB$BYTES_PER_CHARACTER)) || ')'\n" +
+"    WHEN 40 THEN 'CSTRING' || ((F.RDB$FIELD_LENGTH / CH.RDB$BYTES_PER_CHARACTER)) || ')'\n" +
+"    WHEN 45 THEN 'BLOB_ID'\n" +
+"    WHEN 261 THEN 'BLOB SUB_TYPE ' || F.RDB$FIELD_SUB_TYPE\n" +
+"    ELSE 'RDB$FIELD_TYPE: ' || F.RDB$FIELD_TYPE || '?' "+
+          
+            " END FIELD_TYPE,  "+
+                   
+"  CH.RDB$CHARACTER_SET_NAME FIELD_CHARSET,\n" +
+"  DCO.RDB$COLLATION_NAME FIELD_COLLATION,\n" +
+"  COALESCE(RF.RDB$DEFAULT_SOURCE, F.RDB$DEFAULT_SOURCE) FIELD_DEFAULT,\n" +
+"  F.RDB$VALIDATION_SOURCE FIELD_CHECK,\n" +
+"  RF.RDB$DESCRIPTION FIELD_DESCRIPTION "+
+            "FROM RDB$RELATION_FIELDS RF JOIN RDB$FIELDS F ON (F.RDB$FIELD_NAME = RF.RDB$FIELD_SOURCE) LEFT OUTER JOIN RDB$CHARACTER_SETS CH ON (CH.RDB$CHARACTER_SET_ID = F.RDB$CHARACTER_SET_ID) LEFT OUTER JOIN RDB$COLLATIONS DCO ON ((DCO.RDB$COLLATION_ID = F.RDB$COLLATION_ID) AND (DCO.RDB$CHARACTER_SET_ID = F.RDB$CHARACTER_SET_ID)) WHERE (RF.RDB$RELATION_NAME = 'SOCUSUA02_MAE_USUARIOS') AND (COALESCE(RF.RDB$SYSTEM_FLAG, 0) = 0) ORDER BY RF.RDB$FIELD_POSITION";
+
+    */
+      arrSqls1[0] = (s);
       
       arrSqls1[1] = ("select * from LOGON_SOCSYST31_CALLTRACE('" + this.strUserName + "')");
       
@@ -256,16 +310,26 @@ public class JAM010RunTime
       
       JAMRowSet rd = rstTmp1[0];
       
-        FileWriter fw = new FileWriter("/home/sfx/tabs1.txt");
+        FileWriter fw = new FileWriter("/home/sfx/LLAVES.txt");
         
         PrintWriter pw = new PrintWriter(fw);
         
+        ResultSetMetaData rmd = rd.getMetaData();
         
+        ArrayList<String> arr = new ArrayList<String>();
+        
+        for(int i = 1; i <= rmd.getColumnCount();i++){
+            arr.add(rmd.getColumnName(i));
+            
+            pw.print(rmd.getColumnName(i) +"\t");
+        }
+         pw.println();
 
       while(rd.next()) {
-         
-          pw.println(rd.getString("rdb$relation_name"));
-          
+         for(int i = 0; i < arr.size();i++){
+          pw.print(rd.getString(arr.get(i))+"\t");
+        }   
+         pw.println();
           
       }
       
